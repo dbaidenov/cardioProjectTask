@@ -18,21 +18,16 @@ class Workout {
     this.distance = distance; //km
     this.duration = duration; //min
   }
-
   _setDescription() {
-    this.type === "running"
-      ? (this.desciption = `Пробежка ${new Intl.DateTimeFormat(
-          navigator.language
-        ).format(this.date)} - ${new Intl.DateTimeFormat(navigator.language, {
-          hour: "numeric",
-          minute: "numeric",
-        }).format(this.date)}`)
-      : (this.desciption = `Велотренировка ${new Intl.DateTimeFormat(
-          navigator.language
-        ).format(this.date)} - ${new Intl.DateTimeFormat(navigator.language, {
-          hour: "numeric",
-          minute: "numeric",
-        }).format(this.date)}`);
+    const formattedDate = new Intl.DateTimeFormat(navigator.language, {
+      hour: "numeric",
+      minute: "numeric",
+    }).format(this.date);
+    const activityType =
+      this.type === "running" ? "Пробежка" : "Велотренировка";
+    this.description = `${activityType} ${new Intl.DateTimeFormat(
+      navigator.language
+    ).format(this.date)} - ${formattedDate}`;
   }
 }
 
@@ -229,7 +224,7 @@ class App {
         })
       )
       .setPopupContent(
-        `${workout.type === "running" ? "🏃" : "🚵‍♂️"} ${workout.desciption}`
+        `${workout.type === "running" ? "🏃" : "🚵‍♂️"} ${workout.description}`
       )
       .openPopup();
   }
@@ -240,7 +235,7 @@ class App {
       workout.id
     }">
     <h2 class="workout__title">${
-      workout.desciption
+      workout.description
     }<span class="workout__remove">❌</span></h2>
     <div class="workout__toggleBtn">Свернуть</div>
     <div class="workout__details">
